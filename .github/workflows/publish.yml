@@ -141,3 +141,10 @@ jobs:
         run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # package.json's `prepublishOnly` runs `n8n-node prerelease`, which is a
+          # guard: it exits 1 unless RELEASE_MODE is set. It exists to stop people
+          # publishing by hand instead of through the release flow. `npm run release`
+          # sets it internally; calling npm publish directly does not, so we set it
+          # here. Without this the publish dies with "Run `npm run release` to
+          # publish the package" and nothing else.
+          RELEASE_MODE: 'true'
