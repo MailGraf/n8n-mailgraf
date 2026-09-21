@@ -30,14 +30,20 @@
 #      secret, named exactly NPM_TOKEN.
 #
 # STEP 2 — switch to OIDC Trusted Publishing once the package exists:
-#   1. On npmjs.com open the package settings → "Publish access" →
-#      "Trusted Publishers" → Add a publisher → GitHub Actions:
-#        Repository owner: MailGraf
-#        Repository name:  n8n-mailgraf
-#        Workflow name:    publish.yml
-#        Environment:      (leave blank)
-#   2. Delete the NPM_TOKEN secret here, revoke the token on npm, and drop the
-#      "Check npm authentication" step below plus the npm config line.
+#   The tab only appears for a package that is already published, so this cannot
+#   be done before the first release.
+#   1. npmjs.com → Packages → n8n-nodes-mailgraf → Settings → Trusted publishing
+#      → "Add trusted publisher" → GitHub Actions:
+#        Organization or user: MailGraf
+#        Repository:           n8n-mailgraf
+#        Workflow filename:    publish.yml      (with the extension, no path)
+#        Environment:          (leave blank)
+#   2. Then in this file: delete the "Check npm authentication" step, the
+#      NODE_AUTH_TOKEN line and `registry-url` above. Keep `id-token: write`;
+#      that is what mints the OIDC token npm trusts.
+#   3. Delete the NPM_TOKEN secret in GitHub and revoke the token on npm.
+#   Needs npm CLI 11.5.1+ and Node 22.14+, which `lts/*` satisfies today. If a
+#   publish ever fails with an OIDC error, check the npm version in the log first.
 #   After this there is no secret to leak and no expiry date to chase.
 #
 # Provenance is signed by GitHub's OIDC infrastructure either way.
