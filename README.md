@@ -92,4 +92,5 @@ Built and tested with n8n 1.x. Requires Node.js 20 or later for building.
 
 ## Version history
 
+- **0.1.1**: package contact address corrected.
 - **0.1.0**: first release with the MailGraf node (contacts, lists, events, campaigns, custom fields) and the MailGraf Trigger node.
